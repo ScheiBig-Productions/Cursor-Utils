@@ -5,6 +5,7 @@
     "author": {
         "name": "ScheiBig (Marcin Jeznach)"
     },
+	"publisher": "ScheiBig",
 	"version": "0.1.0",
 	"repository": {
         "url": "https://github.com/ScheiBig-Production/Cursor-Utils",
