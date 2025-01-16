@@ -1,4 +1,4 @@
-# ![logo icon small](https://github.com/ScheiBig-Production/Cursor-Utils/blob/main/img/icon/icon_sm.png?raw=true) Cursor Utils
+# ![logo icon small](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/icon/icon_sm.png?raw=true) Cursor Utils
 Utilities extending experience of working with multiple cursors.
 
 ### Reasoning
@@ -28,7 +28,7 @@ It assumes, that only one cursor is placed in the editor.
 - `> Cursor Utils: Repeat line` 
 - `4`
 
-![repeat line showcase](https://github.com/ScheiBig-Production/Cursor-Utils/blob/main/img/examples/repeat_line.png)
+![repeat line showcase](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/examples/repeat_line.png?raw=true)
 
 ### Generate numbers
 
@@ -56,7 +56,7 @@ Selections are treated as they were cursors placed on beginning of those selecti
 - `> Cursor Utils: Generate numbers` 
 - `0.<5!`
 
-![generate numbers showcase](https://github.com/ScheiBig-Production/Cursor-Utils/blob/main/img/examples/generate_numbers.png)
+![generate numbers showcase](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/examples/generate_numbers.png?raw=true)
 
 ### Align cursors
 
@@ -72,7 +72,7 @@ Selections are treated as they were cursors placed on beginning of those selecti
 - `> Cursor Utils: Align cursors`
 - ` `
 
-![align cursors showcase](https://github.com/ScheiBig-Production/Cursor-Utils/blob/main/img/examples/align_cursors.png)
+![align cursors showcase](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/examples/align_cursors.png?raw=true)
 
 ### Pad selections
 
@@ -98,13 +98,13 @@ Padding without length:
 - `> Cursor Utils: Pad selections`
 - `.>`
 
-![align cursors showcase](https://github.com/ScheiBig-Production/Cursor-Utils/blob/main/img/examples/pad_selections-1.png)
+![align cursors showcase](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/examples/pad_selections-1.png?raw=true)
 
 Padding with length:
 - `> Cursor Utils: Pad selections`
 - `_[8`
 
-![align cursors showcase](https://github.com/ScheiBig-Production/Cursor-Utils/blob/main/img/examples/pad_selections-2.png)
+![align cursors showcase](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/examples/pad_selections-2.png?raw=true)
 
 ## Planned features:
 
