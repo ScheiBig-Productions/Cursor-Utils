@@ -1,0 +1,75 @@
+{
+	"name": "cursor-utils",
+	"displayName": "Cursor Utils",
+	"description": "Utilities extending experience of working with multiple cursors.",
+    "author": {
+        "name": "ScheiBig (Marcin Jeznach)"
+    },
+	"version": "0.1.0",
+	"repository": {
+        "url": "https://github.com/ScheiBig-Production/Cursor-Utils",
+        "type": "git"
+    },
+    "license": "GPL v3.0",
+    "private": true,
+    "icon": "img/icon/icon.png",
+	"engines": {
+		"vscode": "^1.80.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "cursor-utils.repeatLine",
+				"title": "Cursor Utils: Repeat line"
+			},
+			{
+				"command": "cursor-utils.generateNumbers",
+				"title": "Cursor Utils: Generate numbers"
+			},
+			{
+				"command": "cursor-utils.alignCursors",
+				"title": "Cursor Utils: Align cursors"
+			},
+			{
+				"command": "cursor-utils.padSelections",
+				"title": "Cursor Utils: Pad selections"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run package",
+		"compile": "npm run check-types && npm run lint && node esbuild.js",
+		"watch": "npm-run-all -p watch:*",
+		"watch:esbuild": "node esbuild.js --watch",
+		"watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+		"package": "npm run check-types && npm run lint && node esbuild.js --production",
+		"compile-tests": "tsc -p . --outDir out",
+		"watch-tests": "tsc -p . -w --outDir out",
+		"pretest": "npm run compile-tests && npm run compile && npm run lint",
+		"check-types": "tsc --noEmit",
+		"lint": "eslint src",
+		"test": "vscode-test"
+	},
+	"devDependencies": {
+		"@types/mocha": "^10.0.9",
+		"@types/node": "20.x",
+		"@types/object.groupby": "^1.0.4",
+		"@types/vscode": "^1.96.0",
+		"@typescript-eslint/eslint-plugin": "^8.10.0",
+		"@typescript-eslint/parser": "^8.7.0",
+		"@vscode/test-cli": "^0.0.10",
+		"@vscode/test-electron": "^2.4.1",
+		"esbuild": "^0.24.0",
+		"eslint": "^9.13.0",
+		"npm-run-all": "^4.1.5",
+		"typescript": "^5.6.3"
+	},
+	"dependencies": {
+		"object.groupby": "^1.0.3"
+	}
+}
