@@ -10,7 +10,7 @@
         "url": "https://github.com/ScheiBig-Production/Cursor-Utils",
         "type": "git"
     },
-    "license": "GPL v3.0",
+    "license": "GPL-3.0",
     "private": true,
     "icon": "img/icon/icon.png",
 	"engines": {
