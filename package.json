@@ -2,18 +2,18 @@
 	"name": "cursor-utils",
 	"displayName": "Cursor Utils",
 	"description": "Utilities extending experience of working with multiple cursors.",
-    "author": {
-        "name": "ScheiBig (Marcin Jeznach)"
-    },
+	"author": {
+		"name": "ScheiBig (Marcin Jeznach)"
+	},
 	"publisher": "ScheiBig",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"repository": {
-        "url": "https://github.com/ScheiBig-Productions/Cursor-Utils",
-        "type": "git"
-    },
-    "license": "GPL-3.0",
-    "private": true,
-    "icon": "img/icon/icon.png",
+		"url": "https://github.com/ScheiBig-Productions/Cursor-Utils",
+		"type": "git"
+	},
+	"license": "GPL-3.0",
+	"private": true,
+	"icon": "img/icon/icon.png",
 	"engines": {
 		"vscode": "^1.80.0"
 	},
