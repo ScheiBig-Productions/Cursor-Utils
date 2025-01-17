@@ -111,4 +111,5 @@ Padding with length:
 - `Repeat line`-like utility, that would allow repeating section of multiple lines covered by selection,
 - `Repeat line`-like utility, that would allow repeating selection - probably inserting results at end of lines (requires directionality),
 - `Generate numbers` - accepting other types of sequences - mainly ascii letter sequences in alphabetical order and hexadecimal numbers,
+  - also probably good idea to allow padding sequences to the right, maybe with optional prefix specifier - like `0x0` would use `0x` for prefix and `0` for padding,
 - `Align cursors`-like utility for aligning selections (would require directionality).
