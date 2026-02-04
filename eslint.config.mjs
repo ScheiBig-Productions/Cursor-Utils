@@ -1007,7 +1007,6 @@ export default config(
 				ImportDeclaration: 1,
 				flatTernaryExpressions: true,
 				offsetTernaryExpressions: true,
-				offsetTernaryExpressionsOffsetCallExpressions: true,
 				ignoreComments: false,
 				tabLength: 4,
 			}], // per-token options might need some revision after using for a while
@@ -1045,7 +1044,6 @@ export default config(
 			"@stylistic/jsx-pascal-case": [ "error", {
 				allowNamespace: true,
 			}],
-			"@stylistic/jsx-props-no-multi-spaces": [ "error" ],
 			"@stylistic/jsx-quotes": [ "error", "prefer-double" ],
 			"@stylistic/jsx-self-closing-comp": [ "error", {
 				component: true,
@@ -1225,10 +1223,7 @@ export default config(
 				before: false,
 				after: true,
 				overrides: {
-					arrow: {
-						before: true,
-						after: true,
-					},
+					arrow: "ignore"
 				},
 			}],
 			"@stylistic/type-generic-spacing": [ "error" ],
