@@ -18,6 +18,8 @@ This extension provides few commands:
 
 ## Details
 
+Every command accepts command configuration - most of them also remember up to 15 recent unique configurations (in current session). Due to limitations of VSCode widgets, those commands will try to force usage of one of matched configurations - this can be by design dismissed by placing `'` after config, which will be always stripped from final config (individual commands might change dismiss character).
+
 ### Repeat line
 
 This command accepts number of repetitions as input.
@@ -34,19 +36,38 @@ It assumes, that only one cursor is placed in the editor.
 
 This command accepts range specification as input.
 
-Range specification consists of:
-- a first number,
-- `>` for exclusive bound or `.` for inclusive bound of first number,
-- `<` for exclusive bound or `.` for inclusive bound of second number,
-- a second number,
-- optional `!`.
+There are 3 types of range specification:
+- full range specification, which consists of:
+  - a first number
+  - `..`
+  - a second number
+  - optional `!`
+- open start range specification, which consists of:
+  - a number
+  - direction specificator - one of:
+    - `>>`
+    - `<<`
+- open end range specification, which consists of:
+  - direction specificator - one of:
+    - `>>`
+    - `<<`
+  - a number
 
-Range direction is determined by comparison of two numbers - if first is smaller, then range is growing towards second number.
+Full range direction is determined by comparison of two numbers - if first is smaller, then range is growing towards second number.
 If first number is smaller, the range is shrinking towards second number.
-
+If both are equal, then one number is repeated.\
 Passing `!` after range ensures strict mode - in strict mode, amount on numbers in range must be the same as number of cursors.
 Otherwise in lenient mode, if number of cursors is smaller, then not all numbers from range will be used (remaining will be skipped).
 If number of cursors is greater, each time range will run out of numbers, it will simply start counting from beginning again.
+
+Open ranges are generated in specified direction:
+- `>>` - descending
+- `<<` - ascending
+
+Number on one side of specifier is used as bound of range - other bound is determined automatically by number of cursors - for example:
+- 5 cursors are placed in file
+- we input range `4>>`
+- cursors are now numbered `4 3 2 1 0`
 
 It is important that cursors will be processed in order of characters in file (top-bottom, left-right) and not order that they were placed.
 
@@ -54,9 +75,11 @@ Selections are treated as they were cursors placed on beginning of those selecti
 
 *Example:*
 - `> Cursor Utils: Generate numbers` 
-- `0.<5!`
+- `0..5!`
 
 ![generate numbers showcase](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/examples/generate_numbers.png?raw=true)
+
+For alignment of numbers, ie. zero-padding, you should select numbers and use [Pad selections](#pad-selections) command.
 
 ### Align cursors
 
@@ -106,10 +129,10 @@ Padding with length:
 
 ![align cursors showcase](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/examples/pad_selections-2.png?raw=true)
 
-## Planned features:
+<!-- ## Planned features:
 
 - `Repeat line`-like utility, that would allow repeating section of multiple lines covered by selection,
 - `Repeat line`-like utility, that would allow repeating selection - probably inserting results at end of lines (requires directionality),
 - `Generate numbers` - accepting other types of sequences - mainly ascii letter sequences in alphabetical order and hexadecimal numbers,
   - also probably good idea to allow padding sequences to the right, maybe with optional prefix specifier - like `0x0` would use `0x` for prefix and `0` for padding,
-- `Align cursors`-like utility for aligning selections (would require directionality).
+- `Align cursors`-like utility for aligning selections (would require directionality). -->
