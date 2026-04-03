@@ -1,7 +1,11 @@
 import * as vscode from "vscode"
 
 const stripDismiss = function (from: string, dismissChar: string) {
-	return from.endsWith(dismissChar) && from.length !== dismissChar.length
+	return (
+		from.endsWith(dismissChar)
+		&& from.length !== dismissChar.length
+		&& dismissChar.length
+	)
 		? from.slice(0, -dismissChar.length)
 		: from
 }
@@ -37,12 +41,11 @@ export const showInputPick = async function (options: {
 		)
 	}
 
-	qp.onDidChangeValue((e) => {
-		if (qp.activeItems.filter((i) => !i.alwaysShow).length === 0
-		) {
-			const err = options.validateInput(stripDismiss(e, dismissChar))
-			global.console.log(stripDismiss(e, dismissChar), items, err)
-			if (err && e.length) {
+	qp.onDidChangeValue((val) => {
+		if (qp.activeItems.filter((i) => !i.alwaysShow).length === 0) {
+			const err = options.validateInput(stripDismiss(val, dismissChar))
+			global.console.log(stripDismiss(val, dismissChar), items, err)
+			if (err && val.length) {
 				const errs = err.split("\n")
 				qp.items = [
 					{ label: `$(error) ${errs[0]}`, alwaysShow: true, detail: errs[1] },
@@ -66,6 +69,7 @@ export const showInputPick = async function (options: {
 				remember(label)
 				qp.hide()
 				res(label)
+				return
 			}
 
 			const typed = stripDismiss(qp.value, dismissChar)
