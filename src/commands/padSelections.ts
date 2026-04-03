@@ -31,7 +31,7 @@ const paddingConfigRegex = /^(.)([<[\]>])([1-9][0-9]*)?$/u
 
 const regexErrorMessage = `
 Invalid padding specification!
-Allowed format: char-%dir-num, dir := <, [,  ], >, num is optional.
+Allowed format: char+%dir+num, dir := <, [,  ], >, num is optional.
 `.trim()
 
 const padSelectionsHistory = new Array<string>()
@@ -47,10 +47,11 @@ export const padSelections = vscode.commands.registerCommand(
 
 		const userInput = await showInputPick({
 			prompt: "Enter padding specification",
-			validateInput: (i) => paddingConfigRegex.test(i.trimEnd())
+			validateInput: (i) => paddingConfigRegex.test(i)
 				? null
 				: regexErrorMessage,
 			history: padSelectionsHistory,
+			dismissChar: "'",
 		})
 
 		if (!userInput) {
