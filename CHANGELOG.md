@@ -2,6 +2,12 @@
 
 All notable changes to the "cursor-utils" extension will be documented in this file.
 
+## [1.1.0] - 2026-04-03
+
+Fixed issues with _Align cursors_ (breaking with multi-column cursors) and _Pad selections_ (corrupted input validation rendering command unusable).
+
+Added command `Cursor Utils: Realign selections`, which also works for selection padding, but treats space between selection in same line as stale padding, that can be removed, to re-pad lines in compact way.
+
 ## [1.0.0] - 2026-02-04
 
 Major bump due to breaking changes:

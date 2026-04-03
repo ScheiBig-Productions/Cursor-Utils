@@ -37,6 +37,10 @@
 				"title": "Cursor Utils: Align cursors"
 			},
 			{
+				"command": "cursor-utils.realignSelections",
+				"title": "Cursor Utils: Realign selections"
+			},
+			{
 				"command": "cursor-utils.padSelections",
 				"title": "Cursor Utils: Pad selections"
 			}

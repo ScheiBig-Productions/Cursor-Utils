@@ -14,6 +14,7 @@ This extension provides few commands:
   Each newly created line attaches new cursor in same column as origin line.
 - `Cursor Utils: Generate numbers` - provides ability to paste number sequences under cursor positions.
 - `Cursor Utils: Align cursors` - aligns cursors to right-most one, using provided padding character.
+- `Cursor Utils: Realign selections` - aligns selections to right-most one, using provided padding character, and removing text between same-line selections for compact padding.
 - `Cursor Utils: Pad selections` - pads selections to provided length or to length of longest selection, using provided padding characters.
 
 ## Details
@@ -96,6 +97,22 @@ Selections are treated as they were cursors placed on beginning of those selecti
 - ` `
 
 ![align cursors showcase](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/examples/align_cursors.png?raw=true)
+
+### Realign selections
+
+This command accepts single character as input.
+
+It aligns all selections in line, putting padding character before cursors as necessary.
+If multiple cursors are placed in each line, they are processed in groups ("columns") from left to right.
+If only one selection in given column is available, it will not be modified.
+
+Before applying padding, this command removes text between neighboring selections in their lines all text, treating it as stale padding - hence realign. This action is destructive and does not differentiate between text made of selected padding characters, and actual text.
+
+*Example:*
+- `> Cursor Utils: Realign selections`
+- ` `
+
+![realign selections showcase](https://github.com/ScheiBig-Productions/Cursor-Utils/blob/main/img/examples/realign_selections.png?raw=true)
 
 ### Pad selections
 
