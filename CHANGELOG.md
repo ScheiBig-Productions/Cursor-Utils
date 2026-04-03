@@ -2,6 +2,10 @@
 
 All notable changes to the "cursor-utils" extension will be documented in this file.
 
+## [1.1.1] - 2026-04-03
+
+Coupled operations in `Cursor Utils: Pad selections` into single edit transaction.
+
 ## [1.1.0] - 2026-04-03
 
 Fixed issues with _Align cursors_ (breaking with multi-column cursors) and _Pad selections_ (corrupted input validation rendering command unusable).

@@ -86,31 +86,32 @@ export const padSelections = vscode.commands.registerCommand(
 		 */
 		const skip = [ -1, padLength ]
 
-		for (let i = 0; i < editor.selections.length; i++) {
-			const nextSelectionToPad = editor.selections
-				.find((s) => !skip.includes(selectionLength(s)))
-			if (!nextSelectionToPad) {
-				break
+		await editor.edit((eb) => {
+			for (let i = 0; i < editor.selections.length; i++) {
+				const nextSelectionToPad = editor.selections
+					.find((s) => !skip.includes(selectionLength(s)))
+				if (!nextSelectionToPad) {
+					break
+				}
+				let textToPad = editor.document.getText(editor.selections[i])
+				switch (padDirection) {
+					case "<" :
+						textToPad = textToPad.padEnd(padLength, padChar)
+						break
+					case "[" :
+						textToPad = padCenter(textToPad, padLength, padChar, false)
+						break
+					case "]" :
+						textToPad = padCenter(textToPad, padLength, padChar, true)
+						break
+					case ">" :
+						textToPad = textToPad.padStart(padLength, padChar)
+						break
+					default :
+						throw TypeError(`Unknown direction ${padDirection}`)
+				}
+				eb.replace(selections[i], textToPad)
 			}
-			let textToPad = editor.document.getText(editor.selections[i])
-			switch (padDirection) {
-				case "<" :
-					textToPad = textToPad.padEnd(padLength, padChar)
-					break
-				case "[" :
-					textToPad = padCenter(textToPad, padLength, padChar, false)
-					break
-				case "]" :
-					textToPad = padCenter(textToPad, padLength, padChar, true)
-					break
-				case ">" :
-					textToPad = textToPad.padStart(padLength, padChar)
-					break
-				default :
-					throw TypeError(`Unknown direction ${padDirection}`)
-			}
-			// eslint-disable-next-line no-await-in-loop -- Synchronous editing required
-			await editor.edit((eb) => eb.replace(selections[i], textToPad))
-		}
+		})
 	},
 )
