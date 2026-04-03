@@ -113,5 +113,12 @@ export const alignCursors = vscode.commands.registerCommand(
 				}
 			}
 		})
+
+		/* Move carets to beginnings of selections.
+				 */
+		editor.selections = editor.selections.map((sel) => {
+			const { start, end } = sel
+			return new vscode.Selection(end, start)
+		})
 	},
 )

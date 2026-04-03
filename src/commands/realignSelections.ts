@@ -81,5 +81,12 @@ export const realignSelections = vscode.commands.registerCommand(
 				eb.insert(cursor, char.repeat(padding + 1))
 			}
 		})
+
+		/* Move carets to beginnings of selections.
+		 */
+		editor.selections = editor.selections.map((sel) => {
+			const { start, end } = sel
+			return new vscode.Selection(end, start)
+		})
 	},
 )
