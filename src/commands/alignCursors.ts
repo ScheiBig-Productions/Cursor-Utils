@@ -1,12 +1,15 @@
 import * as vscode from "vscode"
 
 import { groupBy } from "../utils/groupBy"
+import { record } from "../utils/record"
 import { showInputPick } from "../utils/ui/showInputPick"
 
 
-const groupSelectionMatrix = (sel: ReadonlyArray<vscode.Selection>) => {
+export const paddingInsertionsMatrix = (
+	sel: ReadonlyArray<vscode.Selection>,
+): Array<{ cursor: vscode.Position, padding: number }> => {
 	/* We first group cursors (selection starts) by line - since we support
-	 * aligning multiple cursors per line, we need to create matrix of them
+	 * aligning multiple cursors per line, we need to create matrix of them.
 	 */
 	const lineGroups = groupBy(sel, (s) => s.start.line)
 	let maxCursPerLine = 0
@@ -21,31 +24,59 @@ const groupSelectionMatrix = (sel: ReadonlyArray<vscode.Selection>) => {
 		maxCursPerLine = Math.max(maxCursPerLine, lineGroups[line].length)
 	}
 
-	/*
-	 * We will return result transposed matrix, so that on first row
-	 * we have all cursors in given column.
+	/* We will create and calculate cursorPaddingMatrix - the expected paddings and positions
+	 * that we should insert them into.
 	 *
-	 * In this setup, we can process each column sequentially, and next columns
-	 * will be recalculated by editor, so we don't need to calculate final positions ourself.
-	 *
-	 * While we at it, in each matrix row, we place max column position before alignment,
-	 * which means we know in final processing where we want to align.
+	 * For that we will collect cursors into columns and then calculate padding
+	 * per cursor in given column, keeping track of delta in previous column on given
+	 * line. Since cursors are collected in columns when multiple cursors are in same
+	 * line, we will never get new cursor in next column, that in previous one was not
+	 * in already traversed line.
 	 */
-	const cursorMatrix: Array<[number, Array<vscode.Selection>]> = []
+	const cursorPaddingMatrix: Array<{ cursor: vscode.Position, padding: number }> = []
+	const lineDelta = record<number, number>()
+
 	for (let col = 0; col < maxCursPerLine; col++) {
+
+		/* Grouping cursors into columns for transposed access
+		 */
 		const cursInColumn: Array<vscode.Selection> = []
-		let maxCol = 0
 		// eslint-disable-next-line guard-for-in -- Groups is null-prototype
 		for (const line in lineGroups) {
 			const cur = lineGroups[line].at(col)
 			if (cur) {
 				cursInColumn.push(cur)
-				maxCol = Math.max(maxCol, cur.start.character)
 			}
 		}
-		cursorMatrix.push([ maxCol, cursInColumn ])
+
+		/* Calculating alignmentTarget - character column (position in line) which
+		 * cursors in given column should be padded to - maximum position in given line,
+		 * with respect to accumulated delta.
+		 */
+		let alignmentTarget = 0
+		for (const cur of cursInColumn) {
+			const delta = lineDelta[cur.start.line] ?? 0
+			const effectiveStart = cur.start.character + delta
+			alignmentTarget = Math.max(alignmentTarget, effectiveStart)
+		}
+
+		/* Calculating actual padding to each cursor in current column
+		 * and populating resulting matrix. Each calculated padding accumulates into
+		 * delta for given line.
+		 */
+		const paddedColumn = new Array<typeof cursorPaddingMatrix[number]>()
+		for (const cur of cursInColumn) {
+			const delta = lineDelta[cur.start.line] ?? 0
+			const effectiveStart = cur.start.character + delta
+			const padLength = alignmentTarget - effectiveStart
+
+			paddedColumn.push({ cursor: cur.start, padding: padLength })
+			lineDelta[cur.start.line] = delta + padLength
+		}
+
+		cursorPaddingMatrix.push(...paddedColumn)
 	}
-	return cursorMatrix
+	return cursorPaddingMatrix
 }
 
 const alignCursorsHistory = new Array<string>()
@@ -73,18 +104,14 @@ export const alignCursors = vscode.commands.registerCommand(
 		}
 		char = char === "" ? " " : char
 
-		const groupSelMat = groupSelectionMatrix(editor.selections)
+		const paddingInsertionMatrix = paddingInsertionsMatrix(editor.selections)
 
-		for (const column of groupSelMat) {
-			const [ alignmentTarget, cursors ] = column
-			// eslint-disable-next-line no-await-in-loop -- Synchronous editing required
-			await editor.edit((eb) => {
-				for (const cur of cursors) {
-					const padLength = alignmentTarget - cur.start.character
-					const padding = char.repeat(padLength)
-					eb.insert(cur.start, padding)
+		await editor.edit((eb) => {
+			for (const { cursor, padding } of paddingInsertionMatrix) {
+				if (padding > 0) {
+					eb.insert(cursor, char.repeat(padding))
 				}
-			})
-		}
+			}
+		})
 	},
 )
